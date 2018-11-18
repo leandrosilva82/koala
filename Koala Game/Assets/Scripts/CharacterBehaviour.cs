@@ -20,6 +20,9 @@ public class CharacterBehaviour : MonoBehaviour
     public float moveSpeed = 6; //velocidade de movimento
     public float accelerationTimeGrounded = 0.1f; //tempo de aceleração no chão
 
+    [Header("Attack")]
+    public GameObject weapon;
+
     [Header("Restart")]
     public int waitAfterSound = 1;
     public bool restartPositionAfter = false;
@@ -122,15 +125,11 @@ public class CharacterBehaviour : MonoBehaviour
             controller.collisions.below ? accelerationTimeGrounded : accelerationTimeAirbone
         );
 
-        if (movement.y != 0f)
+        if (movement.y > 0f)
         {
-            float targetVelocityY = movement.y * moveSpeed;
-            velocity.y = Mathf.SmoothDamp(
-                velocity.y,
-                targetVelocityY,
-                ref velocityYSmoothing,
-                controller.collisions.below ? accelerationTimeGrounded : accelerationTimeAirbone
-            );
+            Debug.Log("Move Weapon!");
+            if(weapon.transform.rotation.z < 90)
+                weapon.transform.Rotate(0,0, 500f * Time.deltaTime);
         }
     }
 
